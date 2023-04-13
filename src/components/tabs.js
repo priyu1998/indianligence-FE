@@ -10,8 +10,11 @@ import Box from '@mui/material/Box';
 import BasicGrid from './grid';
 import { useState,useEffect,useRef } from 'react';
 import { chatgpt } from '../api/Chatapi';
+import {Speech} from 'react-speech';
 import axios from 'axios';
 import { SSE } from 'sse';
+import MultilineTextFields from './input';
+import { TextField } from '@mui/material';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -49,6 +52,10 @@ export default function FullWidthTabs() {
   const [input ,SetInput] = useState(null);
   const [output , SetOutput] = useState(null);
   const resultRef = useRef();
+  const scrollRef = useRef(null);
+  const [audio,Setaudio] = useState(null)
+  const [audioUrl, setAudioUrl] = useState([]);
+
   let  apiKey=  "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";
   useEffect(()=>{
     resultRef.current = output;
@@ -59,26 +66,58 @@ export default function FullWidthTabs() {
       SetInput(event.target.value);
       // console.log(input);
   }
-  const handleSendChat = ()=>{
+  const talk = new SpeechSynthesisUtterance();
+  // talk.voice = "Google UK English Female";
+  talk.rate="1";
 
+  const handleSendChat = ()=>{
+    <Speech text="text is nothing like you"
+    pitch="1"
+    volume="1"
+    lang="en-GB"
+    voice="Google UK English Female"
+    />
     const parameterObject = {
       inputs:input
       }
-      
-      // const response =  new SSE("https://api.openai.com/v1/chat/completions",
-      // {
+     
+      // let url = "https://api.openai.com/v1/completions";
+      //   let data = {
       //     model:"gpt-3.5-turbo",
-      //     messages:[{"role":"user","content":input}]
-      //        },
-          
-      //     { headers:{
-      //       "Authorization":"Bearer"+" "+"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"},
-      //     },{method:"POST"})
+      //     messages:[{"role":"user","content":input}],
+      //       // temperature: 0.75,
+      //       // top_p: 0.95,
+      //       // max_tokens:2000,
+      //       stream: true,
+      //       // n: 1,
+      //   };
+      // //   let source = new SSE(url,{
+    
+      // //       headers:{
+      // //           "Content-Type": "application/json",
+      // //           Authorization: `Bearer ${apiKey}`,
+      // //       },
+      // //       method: "POST",
+      // //       payload: JSON.stringify(data),
+      // //   });
+      // let response =  new SSE("https://api.openai.com/v1/chat/completions",
+      // { 
 
+      //     // payload: JSON.stringify(data),
+      //     headers : {
+      //       "Content-Type": "application/json",
+      //       "Authorization":`Bearer ${apiKey}`
+      //     },
+
+      //     method:"POST",
+      //     payload: JSON.stringify(data),
+      //   })
+                  
       //     response.addEventListener("message",(e)=>{
       //       if(e.data != "[DONE]"){
       //         let payload = JSON.parse(e.data);
-      //         let text = payload.choices[0].message.content.toString();
+      //         let texts = payload.choices[0];
+      //         let text = texts.delta.content;
       //         if(text != "\n"){
       //           resultRef.current = resultRef.current + text;
       //           SetOutput(resultRef.current);
@@ -94,52 +133,120 @@ export default function FullWidthTabs() {
 
       //     // SetOutput(outputs);
       //   }
-      // const response = await chatgpt(parameterObject);
+    //   const response = await chatgpt(parameterObject);
       SetOutput("");
-      let url = "https://api.openai.com/v1/chat/completions";
-      let data = {
-          model: "gpt-4",
-          prompt: input,
-          temperature: 0.75,
-          top_p: 0.95,
-          max_tokens:2000,
-          stream: true,
-          n: 1,
-      };
+    //   let url = "https://api.openai.com/v1/completions";
+    let url = "https://api.openai.com/v1/chat/completions";
+    //   let data = {
+    //       model: "text-davinci-003",
+    //       prompt: input,
+    //       temperature: 0.75,
+    //       top_p: 0.95,
+    //       max_tokens:2000,
+    //       stream: true,
+    //       n: 1,
+    //   };
+    let data = {
+      model:"gpt-3.5-turbo",
+      messages:[{"role":"user","content":input}],
+        temperature: 0.75,
+        top_p: 0.95,
+        max_tokens:4000,
+        stream: true,
+        n: 1,
+    };
       let source = new SSE(url,{
   
-          headers:{
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${apiKey}`,
-          },
-          method: "POST",
-          body: JSON.stringify(data),
-      });
+    //       headers:{
+    //           "Content-Type": "application/json",
+    //           Authorization: `Bearer ${apiKey}`,
+    //       },
+    //       method: "POST",
+    //       payload: JSON.stringify(data),
+    //   });
   
+    headers : {
+      "Content-Type": "application/json",
+      Authorization:`Bearer ${apiKey}`
+    },
+
+    method:"POST",
+    payload: JSON.stringify(data),
+  })
       source.addEventListener("message",(e)=>{
           if(e.data !== "[DONE]"){
+            // console.log(e.data)
               let payload = JSON.parse(e.data);
-              let text = payload.choices[0].text;
-              if(text !== "\n"){
+              
+              let text = payload.choices[0].delta.content;
+              // console.log(payload)
+              if(payload.choices[0].finish_reason!=="stop"){
+
+    // let text = texts.delta.content;
+              if(text !== undefined){
+                if(payload.choices[0].delta!= " "){
+
+                  talk.text = resultRef.current;
                   resultRef.current = resultRef.current + text;
+                  // if(talk.text!=="?"){
+                  // window.speechSynthesis.speak(talk);
+                  // }else{
+                  //   window.speechSynthesis.cancel();
+                  // }
                   SetOutput(resultRef.current);
               }
+              }else{
+                // talk.text = "else";
+                // window.speechSynthesis.speak(talk);
+                  // resultRef.current = resultRef.current + "%";
+              }
+                  // if(resultRef.current === "."){
+                  //   console.log("done")
+                  //   window.speechSynthesis.cancel();
+                  // }
+                }
           }else{
-              source.close();
-              SetInput("");
+            // resultRef.current = resultRef.current + "$$";
+            // window.speechSynthesis.cancel();
+            console.log("Final Output"+"\n"+resultRef.current)
+            if(resultRef.current!==null){ 
+
+                const requestObjects = {
+                 text : resultRef.current,
+                 voice: "en-IN-Wavenet-D",
+                 language: "en-IN" 
+               }
+               if(requestObjects!==null){
+                 try{
+                  const speak = async(requestObjects)=>{
+                  const res =  await axios.post(`http://localhost:5000/api/speak`,requestObjects,
+                   {headers:{
+                    'Content-Type': 'application/json'
+                  } });
+                  const data =  res.data;
+                  Setaudio(data);
+                  const audio = new Audio(data.audioUrl);
+                  audio.play();
+
+                 }
+                 speak(requestObjects);
+                }catch(error){
+                   console.log(error);
+                 }
+               }
+              
+              
+            }
+            source.close();
+              
+              SetInput(" ");
           }
-  
-      });
+
+      },);
       source.stream();
     }
-      
-      // const response = chatgpt(parameterObject);
-      // SetOutput(response);
-      // }
-      // catch(err){
-      //     console.log(err)
-      // }
     
+
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -158,9 +265,11 @@ export default function FullWidthTabs() {
     
     // }}
     // >
+    
     <div style={{backgroundColor:"whitesmoke" ,
     
     width:"100%",marginTop:"5%"}}>
+         
       <AppBar position="relative" style={{marginTop:10 , width:"100%"}}>
         <Tabs
           value={value}
@@ -184,9 +293,22 @@ export default function FullWidthTabs() {
           <BasicGrid output={output} onChange={handleInputChange} onsend={handleSendChat}
           setInputs={SetInput} inputs={input}
           />
+         
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+
+        <MultilineTextFields  
+          
+          onChange={handleInputChange} onsend={handleSendChat}
+          setInputs={SetInput} inputs={input}
+          sx={{borderRadius:"7px", backgroundColor:"blue" , 
+          bottom:0,
+          position:'fixed',
+          width:'100%',
+          left:0
+          }}>
+         </MultilineTextFields>
+
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three

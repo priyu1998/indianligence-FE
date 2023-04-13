@@ -12,7 +12,7 @@ export default function MultilineTextFields(props) {
       component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '100%',marginLeft:0 },
-        position:'absolute',
+        position: props.position,
         bottom:5,
         left:0,
         width:'100%',
@@ -20,6 +20,7 @@ export default function MultilineTextFields(props) {
         paddingInline:"5px" }}
         noValidate
         autoComplete="off"
+        
     >
         
       <div style={{marginRight:"5px", 

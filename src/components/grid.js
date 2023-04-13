@@ -10,7 +10,7 @@ const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
-  textAlign: 'center',
+  // textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
 
@@ -21,10 +21,25 @@ export default function BasicGrid(props) {
       
         <Grid  lg={10} md={50} sm={10} height={500}  position={'relative'}
           sx={{backgroundColor:"white"}}>
-          <p>{props.output}</p>
+          <p style={{ display:"flex",
+          fontFamily:"Söhne,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",
+          fontSize:"16px",
+          justifyContent:"left",
+          alignItems:"left",
+          textAlign:"left",
+          margin:0, left:0,
+          maxHeight:"85%",
+          scrollBehavior:"auto",
+          overflow:"auto",
+          scrollbarGutter:"auto",
+          // backgroundColor:"red",
+          whiteSpace:"pre-wrap"}}
+            >
+            {props.output}
+            </p>
           <MultilineTextFields  
           
-          onChange={props.onChange} onsend={props.onsend}
+          position={"absolute"} onChange={props.onChange} onsend={props.onsend}
           setInputs={props.SetInputs} inputs={props.inputs}
           sx={{borderRadius:"7px", backgroundColor:"blue" , 
           bottom:0,

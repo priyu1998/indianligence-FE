@@ -11,11 +11,6 @@ export default function SimpleContainer() {
       
       <Container maxWidth="xl" 
       position='relative'  sx={{ bgcolor: 'red', width:"100%" }}>
-        {/* <Box sx={{ bgcolor: '#cfe8fc', width:'97%', 
-        height: '100vh',
-        margin:0,padding:0 }}>
-         <FullWidthTabs/>
-        </Box> */}
         <FullWidthTabs></FullWidthTabs>
       </Container>
     </React.Fragment>
