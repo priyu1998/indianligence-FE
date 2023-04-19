@@ -41,7 +41,7 @@ export default function BasicGrid(props) {
           
           position={"absolute"} onChange={props.onChange} onsend={props.onsend}
           setInputs={props.SetInputs} inputs={props.inputs}
-          sx={{borderRadius:"7px", backgroundColor:"blue" , 
+          sx={{borderRadius:"7px" , 
           bottom:0,
           position:'fixed',
           width:'100%',
@@ -50,7 +50,7 @@ export default function BasicGrid(props) {
            </MultilineTextFields>
         </Grid>
         <Grid sm={10} md={50} lg={2}>
-            <Item>
+            {/* <Item>
               <Box
                 id="category-a"
                 sx={{ fontSize: '12px', textTransform: 'uppercase' }}
@@ -62,7 +62,7 @@ export default function BasicGrid(props) {
                 <li>B</li>
                 <li>C</li>
               </Box>
-            </Item>
+            </Item> */}
           </Grid>
 
         {/* <Grid xs={2}>

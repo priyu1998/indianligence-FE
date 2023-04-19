@@ -10,7 +10,7 @@ export default function SimpleContainer() {
       <CssBaseline />
       
       <Container maxWidth="xl" 
-      position='relative'  sx={{ bgcolor: 'red', width:"100%" }}>
+      position='relative'  sx={{ width:"100%" }}>
         <FullWidthTabs></FullWidthTabs>
       </Container>
     </React.Fragment>

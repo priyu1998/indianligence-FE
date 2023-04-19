@@ -15,6 +15,8 @@ import axios from 'axios';
 import { SSE } from 'sse';
 import MultilineTextFields from './input';
 import { TextField } from '@mui/material';
+import AudioToText from '../AudioToText';
+// import Transcription from '../mic';
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -55,13 +57,20 @@ export default function FullWidthTabs() {
   const scrollRef = useRef(null);
   const [audio,Setaudio] = useState(null)
   const [audioUrl, setAudioUrl] = useState([]);
+  const [currentRecognition, setCurrentRecognition] = useState();
+  const [recognitionHistory, setRecognitionHistory] = useState([]);
 
   let  apiKey=  "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";
   useEffect(()=>{
     resultRef.current = output;
   } , [output]);
 
-
+  const speechRecognized = (data) => {
+    if (data.final) {
+      setCurrentRecognition("...");
+      setRecognitionHistory((old) => [data.text, ...old]);
+    } else setCurrentRecognition(data.text + "...");
+  };
   const handleInputChange = (event)=>{
       SetInput(event.target.value);
       // console.log(input);
@@ -148,7 +157,7 @@ export default function FullWidthTabs() {
     //   };
     let data = {
       model:"gpt-3.5-turbo",
-      messages:[{"role":"user","content":input}],
+      messages:[{"role":"user","content":currentRecognition}],
         temperature: 0.75,
         top_p: 0.95,
         max_tokens:4000,
@@ -213,13 +222,13 @@ export default function FullWidthTabs() {
 
                 const requestObjects = {
                  text : resultRef.current,
-                 voice: "en-IN-Wavenet-D",
+                 voice: "en-IN-Wavenet-C",
                  language: "en-IN" 
                }
                if(requestObjects!==null){
                  try{
                   const speak = async(requestObjects)=>{
-                  const res =  await axios.post(`http://localhost:5000/api/speak`,requestObjects,
+                  const res =  await axios.post(`http://ai.ayuryoga.life/api/speak`,requestObjects,
                    {headers:{
                     'Content-Type': 'application/json'
                   } });
@@ -308,10 +317,11 @@ export default function FullWidthTabs() {
           left:0
           }}>
          </MultilineTextFields>
+         <AudioToText recognitionHistory={recognitionHistory} speechRecognized={speechRecognized} setCurrentRecognition={setCurrentRecognition} currentRecognition={currentRecognition}/>
 
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          Item Three
+          Coming Soon
         </TabPanel>
       </SwipeableViews>
     </div>
