@@ -59,26 +59,59 @@ export default function FullWidthTabs() {
   const [audioUrl, setAudioUrl] = useState([]);
   const [currentRecognition, setCurrentRecognition] = useState();
   const [recognitionHistory, setRecognitionHistory] = useState([]);
-
+const [question , setQuestion] = useState(false);
   let  apiKey=  "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";
   useEffect(()=>{
     resultRef.current = output;
+
   } , [output]);
 
+  useEffect(()=>{
+    if(question){
+    handleSendChat();
+    }
+    setQuestion(false)
+  } , [question]);
+
   const speechRecognized = (data) => {
+    
+    SetInput(null);
     if (data.final) {
+      
       setCurrentRecognition("...");
+      SetInput("...");
       setRecognitionHistory((old) => [data.text, ...old]);
-    } else setCurrentRecognition(data.text + "...");
+    } else {
+      setCurrentRecognition(data.text + "...");
+      SetInput(data.text + "...");
+
+    }
+
+  
   };
   const handleInputChange = (event)=>{
       SetInput(event.target.value);
+      // setCurrentRecognition(null);
+      // setQuestion(event.target.value);
+
+
       // console.log(input);
   }
   const talk = new SpeechSynthesisUtterance();
   // talk.voice = "Google UK English Female";
   talk.rate="1";
 
+  // if(currentRecognition!=null){
+  //   console.log("not null");
+  //   Set(currentRecognition);
+  // }
+//  if(question===true){
+//   const test = async()=>{
+//   await handleSendChat();
+//   }
+//   test();
+//   setQuestion(false);
+//  }
   const handleSendChat = ()=>{
     <Speech text="text is nothing like you"
     pitch="1"
@@ -90,74 +123,13 @@ export default function FullWidthTabs() {
       inputs:input
       }
      
-      // let url = "https://api.openai.com/v1/completions";
-      //   let data = {
-      //     model:"gpt-3.5-turbo",
-      //     messages:[{"role":"user","content":input}],
-      //       // temperature: 0.75,
-      //       // top_p: 0.95,
-      //       // max_tokens:2000,
-      //       stream: true,
-      //       // n: 1,
-      //   };
-      // //   let source = new SSE(url,{
-    
-      // //       headers:{
-      // //           "Content-Type": "application/json",
-      // //           Authorization: `Bearer ${apiKey}`,
-      // //       },
-      // //       method: "POST",
-      // //       payload: JSON.stringify(data),
-      // //   });
-      // let response =  new SSE("https://api.openai.com/v1/chat/completions",
-      // { 
-
-      //     // payload: JSON.stringify(data),
-      //     headers : {
-      //       "Content-Type": "application/json",
-      //       "Authorization":`Bearer ${apiKey}`
-      //     },
-
-      //     method:"POST",
-      //     payload: JSON.stringify(data),
-      //   })
-                  
-      //     response.addEventListener("message",(e)=>{
-      //       if(e.data != "[DONE]"){
-      //         let payload = JSON.parse(e.data);
-      //         let texts = payload.choices[0];
-      //         let text = texts.delta.content;
-      //         if(text != "\n"){
-      //           resultRef.current = resultRef.current + text;
-      //           SetOutput(resultRef.current);
-      //         }
-      //       }else{
-      //         response.close();
-      //       }
-      //     });
-      //     response.stream();
-      //     // const outputs = response.data.choices[0].message.content.toString();
-         
-          
-
-      //     // SetOutput(outputs);
-      //   }
-    //   const response = await chatgpt(parameterObject);
       SetOutput("");
     //   let url = "https://api.openai.com/v1/completions";
     let url = "https://api.openai.com/v1/chat/completions";
-    //   let data = {
-    //       model: "text-davinci-003",
-    //       prompt: input,
-    //       temperature: 0.75,
-    //       top_p: 0.95,
-    //       max_tokens:2000,
-    //       stream: true,
-    //       n: 1,
-    //   };
+  
     let data = {
       model:"gpt-3.5-turbo",
-      messages:[{"role":"user","content":currentRecognition}],
+      messages:[{"role":"user","content":input}],
         temperature: 0.75,
         top_p: 0.95,
         max_tokens:4000,
@@ -317,7 +289,7 @@ export default function FullWidthTabs() {
           left:0
           }}>
          </MultilineTextFields>
-         <AudioToText recognitionHistory={recognitionHistory} speechRecognized={speechRecognized} setCurrentRecognition={setCurrentRecognition} currentRecognition={currentRecognition}/>
+         <AudioToText handleSendChat={setQuestion} SetInput={SetInput} recognitionHistory={recognitionHistory} speechRecognized={speechRecognized} setCurrentRecognition={setCurrentRecognition} currentRecognition={currentRecognition}/>
 
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>

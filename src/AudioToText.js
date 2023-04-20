@@ -189,6 +189,7 @@
     const processorRef = useRef();
     const audioContextRef = useRef();
     const audioInputRef = useRef();
+    const silenceTimeoutRef = useRef();
   
     // const speechRecognized = (data) => {
     //   if (data.final) {
@@ -225,6 +226,7 @@
   
     const disconnect = () => {
       if (!connection) return;
+      clearTimeout(silenceTimeoutRef.current);
       connection?.emit("endGoogleCloudStream");
       connection?.disconnect();
       processorRef.current?.disconnect();
@@ -234,7 +236,20 @@
       setRecorder(undefined);
       setIsRecording(false);
     };
+
+    const handleSilenceDetection = () => {
+      if (isRecording) {
+        disconnect();
+        props.handleSendChat(true);
+      }
+    };
   
+    useEffect(() => {
+      if (isRecording) {
+        silenceTimeoutRef.current = setTimeout(handleSilenceDetection, 5000);
+      }
+    }, [isRecording]);
+
     useEffect(() => {
       (async () => {
         if (connection) {
@@ -271,6 +286,8 @@
           };
           setIsRecording(true);
         } else {
+          setIsRecording(false);
+          setRecorder(undefined);
           console.error("No connection");
         }
       })();
