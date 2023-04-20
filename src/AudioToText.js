@@ -200,7 +200,7 @@
   
     const connect = () => {
       connection?.disconnect();
-      const socket = io.connect("http://localhost:8081");
+      const socket = io.connect("http://indian.ai.ayuryoga.life:8082");
       socket.on("connect", () => {
         console.log("connected", socket.id);
         setConnection(socket);
