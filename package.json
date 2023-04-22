@@ -19,6 +19,7 @@
     "react-scripts": "5.0.1",
     "react-speech": "^1.0.2",
     "web-vitals": "^2.1.4",
+    "react-swipeable-views": "^0.14.0",
    
       "@types/jest": "^27.5.2",
       "@types/node": "^16.18.10",
