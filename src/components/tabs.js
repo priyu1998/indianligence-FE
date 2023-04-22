@@ -60,7 +60,7 @@ export default function FullWidthTabs() {
   const [currentRecognition, setCurrentRecognition] = useState();
   const [recognitionHistory, setRecognitionHistory] = useState([]);
 const [question , setQuestion] = useState(false);
-  let  apiKey=  "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";
+  let  apiKey=  "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";
   useEffect(()=>{
     resultRef.current = output;
 
