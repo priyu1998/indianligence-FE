@@ -200,7 +200,7 @@ const [question , setQuestion] = useState(false);
                if(requestObjects!==null){
                  try{
                   const speak = async(requestObjects)=>{
-                  const res =  await axios.post(`http://ai.ayuryoga.life/api/speak`,requestObjects,
+                  const res =  await axios.post(`https://indian-t2s.onrender.com/api/speak`,requestObjects,
                    {headers:{
                     'Content-Type': 'application/json'
                   } });
