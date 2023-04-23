@@ -111,7 +111,7 @@
       console.log(language);
 
       connection?.disconnect();
-      const socket = io.connect("http://localhost:8082");
+      const socket = io.connect("http://15.207.194.255:8082");
       socket.on("connect", () => {
         console.log("connected", socket.id);
         setConnection(socket);
