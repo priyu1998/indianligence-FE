@@ -28,7 +28,7 @@ export default function MultilineTextFields(props) {
             width:"100%"}}>
         <TextField
           id="outlined-multiline-flexible"
-          label="Ask me anything !"
+          // label="Ask me anything !"
           multiline
           maxRows={4}
           value={props.inputs}

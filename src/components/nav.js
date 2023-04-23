@@ -55,11 +55,11 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            Indianligence
+            BharatGPT 
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}> */}
+            {/* <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -68,8 +68,8 @@ function ResponsiveAppBar() {
               color="inherit"
             >
               <MenuIcon />
-            </IconButton>
-            <Menu
+            </IconButton> */}
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
@@ -93,8 +93,8 @@ function ResponsiveAppBar() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          </Box> */}
+          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
           <Typography
             variant="h5"
             noWrap
@@ -128,7 +128,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
               </IconButton>
             </Tooltip>
             <Menu

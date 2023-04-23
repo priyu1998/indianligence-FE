@@ -16,10 +16,10 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function BasicGrid(props) {
   return (
-    <Box sx={{ flexGrow: 1 }} position={'relative'}>
+    <Box sx={{ flexGrow: 1 ,width:"100%"}} position={'relative'}>
       <Grid container spacing={2} >
       
-        <Grid  lg={10} md={50} sm={10} height={500}  position={'relative'}
+        <Grid  lg={20} md={50} sm={15} xs={20} height={"80vh"} position={'relative'}
           sx={{backgroundColor:"white"}}>
           <p style={{ display:"flex",
           fontFamily:"Söhne,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif,Helvetica Neue,Arial,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji",

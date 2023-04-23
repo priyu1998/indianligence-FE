@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 
 function App() {
-  document.title = "Indianligence"
+  document.title = "BharatGPT"
   return (
     <div className="App">
     <ResponsiveAppBar/>
