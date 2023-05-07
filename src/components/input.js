@@ -26,20 +26,20 @@ export default function MultilineTextFields(props) {
       <div style={{marginRight:"5px", 
             // backgroundColor:"blue" , 
             width:"100%"}}>
-        <TextField
+        {/* <TextField
           id="outlined-multiline-flexible"
           // label="Ask me anything !"
           multiline
           maxRows={4}
           value={props.inputs}
           onChange={props.onChange}
-        />
+        /> */}
          
       </div>
-      <Button
+      {/* <Button
         onClick={props.onsend}
         >
-            Send</Button>
+            Send</Button> */}
          </Box>
          
   );

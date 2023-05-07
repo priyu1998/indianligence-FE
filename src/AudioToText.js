@@ -45,7 +45,12 @@
     const [checkbox1 , setCheckbox1] = useState(false);
     const [checkbox2 , setCheckbox2] = useState(false);
     const [checkbox3 , setCheckbox3] = useState(false);
-    const [language , setLanguage] = useState('');
+    const [language , setLanguage] = useState('en-us');
+    const [checkbox1_disabled , setCheckbox1d ] = useState(false);
+
+    const [checkbox2_disabled , setCheckbox2d ] = useState(false);
+
+    const [checkbox3_disabled , setCheckbox3d ] = useState(false);
     // const speechRecognized = (data) => {
     //   if (data.final) {
     //     setCurrentRecognition("...");
@@ -62,38 +67,53 @@
           setCheckbox1(event.target.checked);
 
           setLanguage(event.target.value)
+          setCheckbox2d(true);
+          setCheckbox3d(true);
       } else{
         setCheckbox1(false);
         setLanguage(null)
+        setCheckbox2d(false);
+      setCheckbox3d(false);
 
       }
       setCheckbox2(false);
       setCheckbox3(false);
+      
     }else if(event.target.name === "b2"){
       if(event.target.checked === true){
         setCheckbox2(event.target.checked);
 
         setLanguage(event.target.value)
+        setCheckbox1d(true);
+      setCheckbox3d(true);
     } else{
       setCheckbox2(false);
       setLanguage(null)
+      setCheckbox1d(false);
+      setCheckbox3d(false);
 
     }
     setCheckbox1(false);
     setCheckbox3(false);
+    
 
     }else if(event.target.name === "b3"){
       if(event.target.checked === true){
         setCheckbox3(event.target.checked);
 
         setLanguage(event.target.value)
+        setCheckbox1d(true);
+    setCheckbox2d(true);
     } else{
       setCheckbox3(false);
       setLanguage(null)
+      setCheckbox1d(false);
+      setCheckbox2d(false);
 
     }
     setCheckbox1(false);
     setCheckbox2(false);
+    
 
     }
         
@@ -111,7 +131,7 @@
       console.log(language);
 
       connection?.disconnect();
-      const socket = io.connect("http://15.207.194.255:8082");
+      const socket = io.connect("https://chat.bharatgpt.world");
       socket.on("connect", () => {
         console.log("connected", socket.id);
         setConnection(socket);
@@ -223,17 +243,18 @@
                 className={isRecording ? "btn-danger" : "btn-outline-light"}
                 onClick={connect}
                 disabled={isRecording}
+                style={{marginLeft:"0.5em", marginRight:"0.5em"}}
               >
                 Speak
               </Button>
 
-              <Button style={{marginLeft:"0.5em", marginRight:"0.5em"}}
+              {/* <Button style={{marginLeft:"0.5em", marginRight:"0.5em"}}
                 className="btn-outline-dark"
                 onClick={disconnect}
                 disabled={!isRecording}
               >
                 Stop
-              </Button>
+              </Button> */}
               {/* {checkboxes.map((checkbox) => (
           <label key={checkbox.name}> 
         <Checkbox
@@ -247,16 +268,16 @@
           </label> 
        ))}  */}
               <label style={{color:"black"}}>en</label>
-              <Checkbox   name="b1" checked={checkbox1} onChange={handleCheckboxChange} aria-label="English" value={"en-US"} disabled={isDisabled}>
+              <Checkbox   name="b1" checked={checkbox1} onChange={handleCheckboxChange} aria-label="English" value={"en-US"} disabled={checkbox1_disabled}>
 
               </Checkbox>
               <label style={{color:"black"}}>hi</label>
-              <Checkbox  name="b2" checked={checkbox2} onChange={handleCheckboxChange} aria-label="Hindi" value={"hi-IN"} disabled={isDisabled}>
+              <Checkbox  name="b2" checked={checkbox2} onChange={handleCheckboxChange} aria-label="Hindi" value={"hi-IN"} disabled={checkbox2_disabled}>
 
               </Checkbox>
 
           <label style={{color:"black"}}>kn</label>
-              <Checkbox name="b3" checked={checkbox3} onChange={handleCheckboxChange} aria-label="Kannada" value={"kn-IN"} disabled={isDisabled}>
+              <Checkbox name="b3" checked={checkbox3} onChange={handleCheckboxChange} aria-label="Kannada" value={"kn-IN"} disabled={checkbox3_disabled}>
 
               </Checkbox>
             {/* </Container> */}

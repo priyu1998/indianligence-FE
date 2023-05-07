@@ -58,7 +58,7 @@ export default function FullWidthTabs() {
   const [currentRecognition, setCurrentRecognition] = useState();
   const [recognitionHistory, setRecognitionHistory] = useState([]);
   const [question, setQuestion] = useState(false);
-  let apiKey = "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";
+  let apiKey = "#########";
   useEffect(() => {
     resultRef.current = output;
 
@@ -116,7 +116,7 @@ export default function FullWidthTabs() {
       messages: [{ "role": "user", "content": input }],
       temperature: 0.75,
       top_p: 0.95,
-      max_tokens: 4000,
+      max_tokens: 1000,
       stream: true,
       n: 1,
     };
@@ -160,7 +160,7 @@ export default function FullWidthTabs() {
           if (requestObjects !== null) {
             try {
               const speak = async (requestObjects) => {
-                const res = await axios.post(`http://ai.ayuryoga.life/api/speak`, requestObjects,
+                const res = await axios.post(`https://chat.bharatgpt.world/api/speak`, requestObjects,
                   {
                     headers: {
                       'Content-Type': 'application/json'
